@@ -53,7 +53,9 @@ dependencies = [
  "embedded-hal 0.2.7",
  "heapless",
  "jlink_rtt",
+ "mousecore2",
  "panic-halt",
+ "sensors2",
  "spin 0.7.1",
  "stm32f4xx-hal",
  "uom",
@@ -233,6 +235,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "micromath"
+version = "2.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c3c8dda44ff03a2f238717214da50f65d5a53b45cd213a7370424ffdb6fae815"
+
+[[package]]
+name = "mousecore2"
+version = "0.1.0"
+source = "git+https://github.com/Teruru-52/mouse_components.git?branch=develop#55f6baea74d4e90b59d27f15d3a19cc3aac4b64a"
+dependencies = [
+ "heapless",
+ "micromath",
+ "num-traits",
+ "serde",
+ "typed-builder",
+ "typenum",
+ "uom",
+]
+
+[[package]]
 name = "nb"
 version = "0.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -336,6 +358,16 @@ name = "semver-parser"
 version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "388a1df253eca08550bef6c72392cfe7c30914bf41df5269b68cbd6ff8f570a3"
+
+[[package]]
+name = "sensors2"
+version = "0.1.0"
+source = "git+https://github.com/Teruru-52/mouse_components.git?branch=develop#55f6baea74d4e90b59d27f15d3a19cc3aac4b64a"
+dependencies = [
+ "embedded-hal 0.2.7",
+ "nb 1.1.0",
+ "uom",
+]
 
 [[package]]
 name = "serde"
@@ -455,6 +487,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ef927ca75afb808a4d64dd374f00a2adf8d0fcff8e7b184af886c3c87ec4a3f3"
 
 [[package]]
+name = "typed-builder"
+version = "0.9.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a46ee5bd706ff79131be9c94e7edcb82b703c487766a114434e5790361cf08c5"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
+]
+
+[[package]]
 name = "typenum"
 version = "1.17.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -473,6 +516,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ffcb443c899d2adc34f4ae4c64d6e9867b6d3ead2fad03979a8732a4ab6d396f"
 dependencies = [
  "num-traits",
+ "serde",
  "typenum",
 ]
 

@@ -32,6 +32,16 @@ features = ["stm32f411", "rt"]
 version = "0.2.7"
 features = ["unproven"]
 
+[dependencies.mousecore2]
+# path = "../components/mousecore2"
+git = "https://github.com/Teruru-52/mouse_components.git"
+branch = "develop"
+
+[dependencies.sensors2]
+# path = "../components/sensors2"
+git = "https://github.com/Teruru-52/mouse_components.git"
+branch = "develop"
+
 # this lets you use `cargo fix`!
 [[bin]]
 name = "comet-firmware"
