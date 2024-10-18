@@ -1,4 +1,5 @@
 #[allow(unused)]
+use sensors2::{encoder::MA702GQ, imu::ICM20648, motor::Motor, tof::VL6180X};
 use stm32f4xx_hal::{
     gpio::{
         gpioa::{PA0, PA1, PA10, PA11, PA12, PA13, PA2, PA3, PA4, PA5, PA6, PA7, PA8, PA9},
@@ -10,6 +11,9 @@ use stm32f4xx_hal::{
         Alternate, Analog, OpenDrain, Output, PushPull,
     },
     pac::{ADC1, SPI1, TIM1, TIM10, TIM11, TIM2, TIM3, TIM4, TIM5, TIM9},
+    qei::Qei,
+    spi::TransferModeNormal,
+    timer::{counter::Counter, pwm::PwmChannel},
 };
 
 pub type Led1 = PB13<Output<PushPull>>;
@@ -20,3 +24,24 @@ pub type Led5 = PB5<Output<PushPull>>;
 pub type Led6 = PC14<Output<PushPull>>;
 pub type Led7 = PH1<Output<PushPull>>;
 pub type Led8 = PB12<Output<PushPull>>;
+
+pub type LeftEncoder = MA702GQ<Qei<TIM4>>;
+// MA702GQ<Qei<TIM4, (PB6<Alternate<PushPull, 2>>, PB7<Alternate<PushPull, 2>>)>>;
+
+pub type RightEncoder = MA702GQ<Qei<TIM2>>;
+// MA702GQ<Qei<TIM2, (PA0<Alternate<PushPull, 1>>, PA1<Alternate<PushPull, 1>>)>>;
+
+pub type Imu = ICM20648<PB15<Output<PushPull>>>;
+
+// pub type Spi = stm32f4xx_hal::spi::Spi<
+//     SPI1,
+//     (
+//         PA5<Alternate<PushPull, 5>>,
+//         PA6<Alternate<PushPull, 5>>,
+//         PA7<Alternate<PushPull, 5>>,
+//     ),
+//     TransferModeNormal,
+// >;
+
+pub type ControlTimer = Counter<TIM5, 1_000_000>; // interrupt
+pub type SensorTimer = Counter<TIM3, 1_000_000>; // interrupt
