@@ -31,12 +31,12 @@ fn panic(info: &PanicInfo) -> ! {
     loop {}
 }
 
-// #[interrupt]
-// fn TIM3() {
-//     let mut pollar = BAG.pollar.lock();
-//     pollar.poll();
-//     pollar.clear_interrupt();
-// }
+#[interrupt]
+fn TIM1_BRK_TIM9() {
+    let mut pollar = BAG.pollar.lock();
+    pollar.poll();
+    pollar.clear_interrupt();
+}
 
 #[interrupt]
 fn TIM5() {
@@ -51,6 +51,8 @@ fn TIM5() {
 fn main() -> ! {
     // initialization
     Lazy::force(&BAG);
+
+    BAG.operator.lock().delay_ms(50_u32);
 
     let mut out = Output::new();
     writeln!(out, "start!").ok();
