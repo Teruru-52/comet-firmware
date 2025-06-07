@@ -269,7 +269,7 @@ checksum = "39617bc909d64b068dcffd0e3e31679195b5576d0c83fadc52690268cc2b2b55"
 [[package]]
 name = "mousecore2"
 version = "0.1.0"
-source = "git+https://github.com/Teruru-52/mouse_components.git?branch=develop#4e4568fd0dfe6ab51f850175cab6f47e2150769e"
+source = "git+https://github.com/Teruru-52/mouse_components.git?branch=develop#70950caf1fc7ad86bde965a1db20f4f0e6c8ca9b"
 dependencies = [
  "heapless",
  "micromath",
@@ -414,10 +414,11 @@ checksum = "388a1df253eca08550bef6c72392cfe7c30914bf41df5269b68cbd6ff8f570a3"
 [[package]]
 name = "sensors2"
 version = "0.1.0"
-source = "git+https://github.com/Teruru-52/mouse_components.git?branch=develop#4e4568fd0dfe6ab51f850175cab6f47e2150769e"
+source = "git+https://github.com/Teruru-52/mouse_components.git?branch=develop#70950caf1fc7ad86bde965a1db20f4f0e6c8ca9b"
 dependencies = [
  "embedded-hal 0.2.7",
  "nb 1.0.0",
+ "spin 0.7.1",
  "uom",
 ]
 

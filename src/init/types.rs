@@ -1,8 +1,12 @@
 #[allow(unused)]
-use sensors2::{encoder::MA702GQ, imu::ICM20600, motor::Motor, speaker::Speaker, tof::VL6180X};
+use sensors2::{
+    encoder::AS5055A, encoder::MA702GQ, imu::ICM20600, infrared::Infrared, motor::Motor,
+    speaker::Speaker,
+};
 use stm32f4xx_hal::{
+    adc::Adc,
     gpio::{
-        gpioa::{PA0, PA1, PA10, PA11, PA12, PA13, PA2, PA3, PA4, PA5, PA6, PA7, PA8, PA9},
+        gpioa::{PA0, PA1, PA10, PA11, PA12, PA13, PA15, PA2, PA3, PA4, PA5, PA6, PA7, PA8, PA9},
         gpiob::{
             PB0, PB1, PB10, PB11, PB12, PB13, PB14, PB15, PB2, PB3, PB4, PB5, PB6, PB7, PB8, PB9,
         },
@@ -15,7 +19,7 @@ use stm32f4xx_hal::{
         PushPull,
         // Alternate, Analog, OpenDrain, Output, PushPull, Pin,
     },
-    pac::{ADC1, SPI1, TIM1, TIM10, TIM11, TIM2, TIM3, TIM4, TIM5, TIM9},
+    pac::{ADC1, SPI2, TIM1, TIM10, TIM11, TIM2, TIM3, TIM4, TIM5, TIM9},
     qei::Qei,
     spi::TransferModeNormal,
     timer::{
@@ -24,36 +28,50 @@ use stm32f4xx_hal::{
     },
 };
 
-pub type Led1 = PB13<Output<PushPull>>;
-pub type Led2 = PB14<Output<PushPull>>;
+pub type Led1 = PB2<Output<PushPull>>;
+pub type Led2 = PB10<Output<PushPull>>;
 pub type Led3 = PA10<Output<PushPull>>;
 pub type Led4 = PA11<Output<PushPull>>;
-pub type Led5 = PB5<Output<PushPull>>;
-pub type Led6 = PC14<Output<PushPull>>;
-pub type Led7 = PH1<Output<PushPull>>;
-pub type Led8 = PB12<Output<PushPull>>;
+pub type Led5 = PA15<Output<PushPull>>;
+pub type Led6 = PB3<Output<PushPull>>;
+pub type Led7 = PB4<Output<PushPull>>;
+pub type Led8 = PC13<Output<PushPull>>;
+pub type Led9 = PC14<Output<PushPull>>;
+pub type Led10 = PC15<Output<PushPull>>;
 
-// pub type Speaker = PwmHz<TIM3, 1, PB4<Alternate<2>>>;
-// pub type Speaker = PwmHz<TIM3, ChannelBuilder<TIM3, 1, PB4<Alternate<2>>>>;
-// pub type Speaker_ = Speaker<PwmChannel<TIM3, 1>>;
+pub type Speaker_ = Speaker<PwmChannel<TIM9, 1>>;
 
-// pub type LeftEncoder = MA702GQ<Qei<TIM4>>;
-// MA702GQ<Qei<TIM4, (PB6<Alternate<PushPull, 2>>, PB7<Alternate<PushPull, 2>>)>>;
+pub type Voltmeter = sensors2::voltmeter::Voltmeter<ADC1, PA2<Analog>>;
 
-// pub type RightEncoder = MA702GQ<Qei<TIM2>>;
-// MA702GQ<Qei<TIM2, (PA0<Alternate<PushPull, 1>>, PA1<Alternate<PushPull, 1>>)>>;
+pub type LeftMotor = Motor<PwmChannel<TIM4, 2>, PwmChannel<TIM4, 3>>;
 
-pub type Imu = ICM20600<PB15<Output<PushPull>>>;
+pub type RightMotor = Motor<PwmChannel<TIM4, 1>, PwmChannel<TIM4, 0>>;
 
-// pub type Spi = stm32f4xx_hal::spi::Spi<
-//     SPI1,
-//     (
-//         PA5<Alternate<5, PushPull>>,
-//         PA6<Alternate<5, PushPull>>,
-//         PA7<Alternate<5, PushPull>>,
-//     ),
-//     TransferModeNormal,
-// >;
+// pub type LeftEncoder = AS5055A<PA9<Output<PushPull>>>;
+pub type LeftEncoder =
+    MA702GQ<Qei<TIM5, (PA0<Alternate<PushPull, 2>>, PA1<Alternate<PushPull, 2>>)>>;
 
-pub type ControlTimer = Counter<TIM5, 1_000_000>; // interrupt
-pub type SensorTimer = Counter<TIM9, 1_000_000>; // interrupt
+// pub type RightEncoder = AS5055A<PA12<Output<PushPull>>>;
+pub type RightEncoder =
+    MA702GQ<Qei<TIM1, (PA8<Alternate<PushPull, 1>>, PA9<Alternate<PushPull, 1>>)>>;
+
+pub type Imu = ICM20600<PB12<Output<PushPull>>>;
+
+pub type Spi = stm32f4xx_hal::spi::Spi<
+    SPI2,
+    (
+        PB13<Alternate<PushPull, 5>>,
+        PB14<Alternate<PushPull, 5>>,
+        PB15<Alternate<PushPull, 5>>,
+    ),
+    TransferModeNormal,
+>;
+
+pub struct Infrareds {
+    pub front_left: Infrared<ADC1, PA7<Analog>>,
+    pub front_right: Infrared<ADC1, PA5<Analog>>,
+    pub side_left: Infrared<ADC1, PB0<Analog>>,
+    pub side_right: Infrared<ADC1, PA4<Analog>>,
+}
+
+pub type ControlTimer = Counter<TIM2, 1_000_000>; // interrupt
